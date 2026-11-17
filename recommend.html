@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Recommend Tech-Moms</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap">
+<style>
+/* Layout: choices on the left, a LinkedIn-style post card on the right that is the editable draft. Palette from the Tech-Moms certificate. */
+:root{
+  --bg:#f3f8fa; --surface:#ffffff; --ink:#2c3237; --muted:#5d6a72; --line:#d6e6eb;
+  --teal:#3fb6cc; --teal-strong:#1e8ea3; --teal-soft:#e2f5f9;
+  --plum:#5b1f3f; --rose:#b85c7d; --rose-soft:#f8e9ef;
+  --gold-ink:#9a6a12; --on-accent:#ffffff;
+  --shadow:0 18px 40px -22px rgba(30,80,95,.45);
+  --font-display:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Open Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111a1e; --surface:#18252b; --ink:#e8f0f2; --muted:#9fb1b8; --line:#2a3b42;
+    --teal:#56c7db; --teal-strong:#6fd3e5; --teal-soft:#16343c;
+    --plum:#e7b3cc; --rose:#e08aa9; --rose-soft:#3a2230; --gold-ink:#f0c46d; --on-accent:#0d1a1e;
+    --shadow:0 18px 40px -22px rgba(0,0,0,.7); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111a1e; --surface:#18252b; --ink:#e8f0f2; --muted:#9fb1b8; --line:#2a3b42;
+  --teal:#56c7db; --teal-strong:#6fd3e5; --teal-soft:#16343c;
+  --plum:#e7b3cc; --rose:#e08aa9; --rose-soft:#3a2230; --gold-ink:#f0c46d; --on-accent:#0d1a1e;
+  --shadow:0 18px 40px -22px rgba(0,0,0,.7); color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.back{color:var(--teal-strong);font:700 13px var(--font-display);text-decoration:none}
+.back:hover{text-decoration:underline}
+.grid{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr);gap:28px}}
+
+.eyebrow{font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);margin:0}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,3.2vw,34px);line-height:1.15;margin:8px 0 10px;text-wrap:balance;color:var(--plum)}
+.lede{color:var(--muted);margin:0;max-width:44ch}
+
+.qs{display:flex;flex-direction:column;gap:24px;margin-top:26px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend,.qlabel{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px;padding:0;display:block}
+.sub{font-size:13px;color:var(--muted);margin:-4px 0 10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-block;padding:8px 13px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-size:13.5px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.chip input:checked + span{background:var(--teal-soft);border-color:var(--teal);color:var(--teal-strong)}
+.chip input:focus-visible + span{outline:3px solid var(--teal);outline-offset:2px}
+.checks{display:flex;flex-direction:column;gap:10px}
+.check{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;align-items:start;font-size:14px;cursor:pointer}
+.check input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--teal-strong)}
+.check small{display:block;color:var(--muted);font-size:12.5px}
+textarea,input[type=text]{width:100%;font:15px/1.5 var(--font-body);color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;outline:none;transition:border-color .15s,box-shadow .15s}
+textarea:focus,input[type=text]:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-soft)}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode label{position:relative;display:block;cursor:pointer}
+.mode input{position:absolute;opacity:0}
+.mode div{height:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface);font-size:12.5px;color:var(--muted)}
+.mode b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:2px}
+.mode input:checked + div{border-color:var(--teal);background:var(--teal-soft)}
+.mode input:focus-visible + div{outline:3px solid var(--teal);outline-offset:2px}
+
+.stage{position:sticky;top:max(20px,env(safe-area-inset-top,0px))}
+@media (max-width:900px){.stage{position:static}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.card-head{display:flex;gap:10px;align-items:center;padding:14px 16px 6px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--teal-strong);color:var(--on-accent);display:grid;place-items:center;font:800 15px var(--font-display);flex:none}
+.who b{display:block;font-size:14px}
+.who span{font-size:12px;color:var(--muted)}
+#post{border:0;border-radius:0;box-shadow:none!important;padding:8px 16px 12px;min-height:340px;resize:vertical;font-size:14.5px;background:transparent}
+.quoted{margin:0 16px 16px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.quoted .qh{display:flex;gap:8px;align-items:center;padding:8px 10px;font-size:12px;color:var(--muted)}
+.quoted .qh i{width:22px;height:22px;border-radius:4px;background:#0aa5b4;flex:none}
+.quoted img,.attached img{display:block;width:100%;height:auto}
+.attached{margin:0 16px 16px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.meta .over{color:#c0392b;font-weight:700}
+
+.actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:46px;padding:11px 16px;border-radius:10px;border:1.5px solid transparent;font:700 14px var(--font-display);text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.btn.primary{background:var(--teal-strong);color:var(--on-accent)}
+.btn.primary:hover{background:var(--teal)}
+.btn.li{background:#0a66c2;color:#fff}
+.btn.li:hover{background:#004182}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--teal)}
+.howto{margin:14px 0 0;padding:0 0 0 20px;font-size:13.5px;color:var(--muted)}
+.howto li{margin:3px 0}
+.howto b{color:var(--ink)}
+.linkbtn{background:none;border:0;color:var(--teal-strong);font:700 12.5px var(--font-display);cursor:pointer;padding:0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:13.5px;font-weight:600;transition:opacity .2s,transform .2s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <a class="back" href="index.html">← Back to my certificate</a>
+  </div>
+  <div class="grid">
+    <section>
+      <p class="eyebrow">Pay it forward</p>
+      <h1>Recommend Tech-Moms to a mom who's ready</h1>
+      <p class="lede">Someone in your network is thinking about going back to work or learning tech skills. Answer a few quick questions and we'll draft a LinkedIn post in your voice. You can edit every word.</p>
+
+      <div class="qs">
+        <div>
+          <span class="qlabel">How do you want to share it?</span>
+          <div class="mode" role="radiogroup">
+            <label><input type="radio" name="mode" value="repost" id="modeRepost" checked><div><b>Repost the enrollment post</b>Add your thoughts to the Tech-Moms post. The graphic comes with it.</div></label>
+            <label><input type="radio" name="mode" value="new" id="modeNew"><div><b>Write a new post</b>Your own post with a link and an image you attach.</div></label>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend>Before Tech-Moms, I was…</legend>
+          <div class="chips" id="before">
+            <label class="chip"><input type="radio" name="before" value="home"><span>Home raising my kids</span></label>
+            <label class="chip"><input type="radio" name="before" value="break" checked><span>On a career break</span></label>
+            <label class="chip"><input type="radio" name="before" value="other"><span>Working outside tech</span></label>
+            <label class="chip"><input type="radio" name="before" value="grow"><span>Wanting to grow in my job</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>What I got out of it</legend>
+          <p class="sub">Pick as many as are true for you.</p>
+          <div class="chips" id="gains">
+            <label class="chip"><input type="checkbox" value="community" checked><span>A supportive community</span></label>
+            <label class="chip"><input type="checkbox" value="confidence" checked><span>Confidence</span></label>
+            <label class="chip"><input type="checkbox" value="skills" checked><span>Data &amp; AI skills</span></label>
+            <label class="chip"><input type="checkbox" value="projects"><span>Real projects to show</span></label>
+            <label class="chip"><input type="checkbox" value="network"><span>Mentors &amp; connections</span></label>
+            <label class="chip"><input type="checkbox" value="job"><span>A new job or promotion</span></label>
+          </div>
+        </fieldset>
+
+        <div>
+          <label class="qlabel" for="own">In your own words <span style="text-transform:none;letter-spacing:0;font-weight:600;color:var(--muted)">(optional)</span></label>
+          <p class="sub">What would you tell a friend who's on the fence?</p>
+          <textarea id="own" rows="3" placeholder="I almost didn't sign up because I thought I was too far behind…"></textarea>
+        </div>
+
+        <fieldset>
+          <legend>Include in the post</legend>
+          <div class="checks">
+            <label class="check"><input type="checkbox" id="incData" checked><span>Data Analytics &amp; AI class<small>Jan 30 – May 1, 2027 · hybrid schedule</small></span></label>
+            <label class="check"><input type="checkbox" id="incCohorts" checked><span>Winter 2027 Tech-Moms cohorts<small>Lehi (UVU), Sandy (SLCC) and online · starting mid-January</small></span></label>
+            <label class="check"><input type="checkbox" id="incSupport" checked><span>Child care support &amp; tuition assistance</span></label>
+            <label class="check"><input type="checkbox" id="incNumbers"><span>Tech-Moms by the numbers<small>957 alumni · 61% accepted a new position · 58% got a raise</small></span></label>
+          </div>
+        </fieldset>
+
+        <div>
+          <label class="qlabel" for="who">Your name <span style="text-transform:none;letter-spacing:0;font-weight:600;color:var(--muted)">(for the preview only)</span></label>
+          <input type="text" id="who" maxlength="60" placeholder="First and last name" autocomplete="name">
+        </div>
+      </div>
+    </section>
+
+    <section class="stage" aria-label="Your post">
+      <div class="card">
+        <div class="card-head">
+          <div class="avatar" id="avatar" aria-hidden="true">TM</div>
+          <div class="who"><b id="whoName">You</b><span>Tech-Moms graduate · Now</span></div>
+        </div>
+        <label class="sr" for="post" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Post text</label>
+        <textarea id="post" spellcheck="true"></textarea>
+        <div class="quoted" id="quoted">
+          <div class="qh"><i></i><span><b style="color:var(--ink)">Tech-Moms</b> · Enrollment open! Data Analytics &amp; AI</span></div>
+          <img src="data-ai-enrollment.jpg" alt="Tech-Moms graphic: Enrollment open, Data Analytics and AI, Jan 30 to May 1, hybrid schedule">
+        </div>
+        <div class="attached" id="attached" hidden>
+          <img id="attachedImg" src="data-ai-enrollment.jpg" alt="">
+        </div>
+        <div class="meta"><span id="count">0 / 3,000 characters</span><button class="linkbtn" id="reset" type="button" hidden>You edited this. Rebuild from my answers</button></div>
+      </div>
+
+      <div class="actions" id="repostActions">
+        <button class="btn primary" id="copy1" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          1. Copy my post
+        </button>
+        <a class="btn li" href="https://lnkd.in/p/e2fdCyQb" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+          2. Open the Tech-Moms post
+        </a>
+        <ol class="howto">
+          <li>On the post, click <b>Repost</b>, then <b>Repost with your thoughts</b>.</li>
+          <li>Paste your text and click <b>Post</b>.</li>
+        </ol>
+      </div>
+
+      <div class="actions" id="newActions" hidden>
+        <fieldset>
+          <legend style="margin-top:4px">Image to attach</legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="img" value="data-ai-enrollment.jpg" checked><span>Data &amp; AI enrollment</span></label>
+            <label class="chip"><input type="radio" name="img" value="winter-2027-locations.jpg"><span>Winter 2027 locations</span></label>
+          </div>
+        </fieldset>
+        <button class="btn ghost" id="dlImg" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          1. Download the image
+        </button>
+        <a class="btn li" id="liNew" href="https://www.linkedin.com/feed/?shareActive=true" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+          2. Open LinkedIn with my post
+        </a>
+        <button class="btn ghost" id="copy2" type="button">Copy my post instead</button>
+        <ol class="howto">
+          <li>LinkedIn opens with your text filled in.</li>
+          <li>Click the <b>photo</b> button to attach the image, then <b>Post</b>.</li>
+        </ol>
+      </div>
+    </section>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const ENROLL_POST = "https://lnkd.in/p/e2fdCyQb";
+  const SITE = "https://www.tech-moms.org/tech-moms";
+  const $ = id => document.getElementById(id);
+  const post = $("post");
+  let edited = false;
+
+  const BEFORE = {
+    home: "Before Tech-Moms, I was home full-time raising my kids and wondering if I could ever catch up in today's job market.",
+    break: "Before Tech-Moms, I was on a career break and honestly wasn't sure how to get back in.",
+    other: "Before Tech-Moms, I was working outside of tech and curious whether a tech career could fit my life.",
+    grow: "Before Tech-Moms, I knew I wanted to grow in my career but didn't know where to start.",
+  };
+  const GAINS = {
+    community: "a community of women who understand juggling family and learning something new",
+    confidence: "the confidence that I belong in tech",
+    skills: "hands-on skills in data analysis and AI tools",
+    projects: "real projects I can show employers",
+    network: "mentors and connections across Utah's tech industry",
+    job: "a new job opportunity",
+  };
+  const list = a => a.length < 2 ? a.join("") : a.length === 2 ? a.join(" and ") : a.slice(0, -1).join(", ") + ", and " + a[a.length - 1];
+
+  function mode() { return document.querySelector('input[name=mode]:checked').value; }
+
+  function generate() {
+    const m = mode();
+    const before = document.querySelector('input[name=before]:checked')?.value;
+    const gains = [...document.querySelectorAll('#gains input:checked')].map(i => GAINS[i.value]);
+    const own = $("own").value.trim();
+    const p = [];
+
+    p.push("If you're a mom thinking about going back to work, or wondering if a career in tech could fit your life, I want to tell you about Tech-Moms. 💜");
+    if (before) p.push(BEFORE[before]);
+    if (gains.length) p.push(`Through Tech-Moms I gained ${list(gains)}. I just graduated from the Data Analytics & AI program, and I'm so proud of what I learned.`);
+    else p.push("I just graduated from the Tech-Moms Data Analytics & AI program, and I'm so proud of what I learned.");
+    if (own) p.push(own);
+
+    if ($("incData").checked) {
+      p.push("Enrollment is open for the next Data Analytics & AI class: Jan 30 – May 1, 2027, on a hybrid schedule." +
+        (m === "new" ? `\nEnrollment details: ${ENROLL_POST}` : ""));
+    }
+    if ($("incCohorts").checked) {
+      p.push("New to tech? The nine-week Tech-Moms program is a great place to start. Winter 2027 cohorts:\n" +
+        "📍 Lehi, at Utah Valley University · Jan 16 – Mar 13\n" +
+        "📍 Sandy, at Salt Lake Community College · Jan 16 – Mar 13\n" +
+        "💻 Online · Jan 13 – Mar 10" +
+        (m === "new" || !$("incData").checked ? `\nLearn more and apply: ${SITE}` : `\nLearn more: ${SITE}`));
+    }
+    if ($("incSupport").checked) p.push("Child care support and tuition assistance are available, so cost and kids don't have to be the reason you wait.");
+    if ($("incNumbers").checked) p.push("The results speak for themselves: of Tech-Moms' 957 alumni, 61% have accepted a new position and 58% received a pay increase.");
+
+    p.push("If you know someone who's ready for her next chapter, please share this with her. Or message me. I'm happy to tell you more about my experience!");
+    p.push("#TechMoms #WomenInTech #ReturnToWork #DataAnalytics #AI #Upskilling");
+    return p.join("\n\n");
+  }
+
+  function render(force) {
+    const m = mode();
+    $("repostActions").hidden = m !== "repost";
+    $("newActions").hidden = m !== "new";
+    $("quoted").hidden = m !== "repost";
+    $("attached").hidden = m !== "new";
+    $("attachedImg").src = document.querySelector('input[name=img]:checked').value;
+    if (!edited || force) { post.value = generate(); edited = false; }
+    $("reset").hidden = !edited;
+    updateMeta();
+  }
+
+  function updateMeta() {
+    const n = post.value.length;
+    $("count").innerHTML = n > 3000 ? `<span class="over">${n.toLocaleString()} / 3,000 characters. LinkedIn will cut this off.</span>` : `${n.toLocaleString()} / 3,000 characters`;
+    $("liNew").href = "https://www.linkedin.com/feed/?shareActive=true&text=" + encodeURIComponent(post.value);
+  }
+
+  function setWho() {
+    const n = $("who").value.trim();
+    $("whoName").textContent = n || "You";
+    const ini = n.split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+    $("avatar").textContent = ini || "TM";
+    try { localStorage.setItem("tm-cert-name", $("who").value); } catch (e) {}
+  }
+
+  function toast(msg) {
+    const el = $("toast"); el.textContent = msg; el.classList.add("show");
+    clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("show"), 3200);
+  }
+
+  async function copy() {
+    try { await navigator.clipboard.writeText(post.value); toast("Copied! Now open the post and paste."); }
+    catch (e) { post.focus(); post.select(); toast("Text selected. Press Ctrl+C or ⌘C to copy."); }
+  }
+
+  let downloads;
+  async function saveImage() {
+    const file = document.querySelector('input[name=img]:checked').value;
+    const filename = "Tech-Moms-" + file;
+    try {
+      const blob = await fetch(file).then(r => r.blob());
+      if (downloads === undefined) { try { downloads = await window.claude?.use?.("downloads"); } catch (e) { downloads = null; } }
+      if (downloads) {
+        try { await downloads.save({ filename, data: blob }); toast("Saved " + filename); }
+        catch (e) { if (e && e.code !== "declined") toast("This view can't save files. Open the page in a browser and try again."); }
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement("a"), { href: url, download: filename });
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    } catch (e) { console.error(e); toast("Couldn't get the image. Reload the page and try again."); }
+  }
+
+  document.querySelectorAll(".qs input, .qs textarea, input[name=img]").forEach(el =>
+    el.addEventListener(el.type === "text" || el.tagName === "TEXTAREA" ? "input" : "change", () => {
+      if (el.id === "who") return setWho();
+      render(false);
+    }));
+  post.addEventListener("input", () => { edited = true; $("reset").hidden = false; updateMeta(); });
+  $("reset").addEventListener("click", () => render(true));
+  $("copy1").addEventListener("click", copy);
+  $("copy2").addEventListener("click", copy);
+  $("dlImg").addEventListener("click", saveImage);
+
+  try { const n = localStorage.getItem("tm-cert-name"); if (n) $("who").value = n; } catch (e) {}
+  setWho();
+  render(true);
+})();
+</script>
+</body>
+</html>
